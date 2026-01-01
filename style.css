@@ -1,0 +1,334 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #050505; /* Màu đen nhưng sáng hơn xíu để hiện pháo hoa đẹp */
+  font-family: "Montserrat", sans-serif;
+  color: white;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+#envelope-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 20; /* Nằm trên chữ và pháo hoa để click được */
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* --- Quản lý màn hình --- */
+.screen {
+  position: absolute;
+  z-index: 10;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.8s ease-in-out;
+  transform: scale(0.9);
+  pointer-events: none; /* Để click xuyên qua được vào canvas lì xì */
+}
+
+.screen.active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+/* Cho phép nút start click được */
+#start-screen {
+  pointer-events: auto;
+  z-index: 30;
+}
+/* --- CẬP NHẬT GIAO DIỆN COUNTDOWN --- */
+.label {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #ffcc00;
+  text-shadow: 0 0 10px #ffcc00;
+}
+
+.timer {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Khoảng cách giữa các ô */
+  flex-wrap: wrap; /* Tự xuống dòng nếu màn hình bé */
+}
+
+.time-box {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  min-width: 100px; /* Độ rộng tối thiểu */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.time-box span:first-child {
+  /* Số to */
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #ff9100;
+  text-shadow: 0 0 20px rgba(255, 145, 0, 0.6);
+  line-height: 1;
+}
+
+.unit {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 10px;
+  color: #ddd;
+}
+/* --- Typography theo ảnh mẫu --- */
+.glow-text {
+  font-family: "Dancing Script", cursive;
+  font-size: 7rem; /* To hơn */
+  margin: 0;
+  line-height: 1.2;
+}
+
+.neon-pink {
+  color: #ff0055;
+  text-shadow: 0 0 10px #ff0055, 0 0 20px #ff0055, 0 0 40px #ff0055;
+}
+
+.year {
+  font-size: 6rem;
+  margin: 10px 0;
+  color: #ffcc00; /* Vàng nghệ đậm đà */
+  font-weight: 800;
+  text-shadow: 0 0 20px rgba(255, 204, 0, 0.8), 0 0 40px rgba(255, 204, 0, 0.5);
+}
+/* --- THÊM MỚI: Style cho linh vật Ngựa --- */
+.zodiac-emblem {
+  margin: 20px auto;
+  animation: pulseHorse 2s infinite alternate ease-in-out;
+}
+
+/* Tìm đoạn cũ `.zodiac-emblem svg` và thay bằng đoạn này: */
+.zodiac-emblem img {
+  /* Hiệu ứng bóng đổ phát sáng (Glow) */
+  filter: drop-shadow(0 0 5px #ffcc00) drop-shadow(0 0 10px #ffcc00);
+
+  display: block;
+  margin: 0 auto;
+
+  /* Điều chỉnh kích thước ảnh tại đây */
+  height: 220px;
+  width: auto;
+}
+.zodiac-text {
+  font-family: "Dancing Script", cursive;
+  color: #ffcc00;
+  font-size: 2.5rem;
+  margin: 10px 0 0 0;
+  text-shadow: 0 0 10px #ffcc00;
+}
+
+@keyframes pulseHorse {
+  from {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+/* --- HẾT PHẦN THÊM MỚI --- */
+.wishes {
+  font-size: 2rem;
+  margin-top: 10px;
+  line-height: 1.5;
+  color: #fff;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.hint {
+  font-size: 1rem;
+  color: #aaa;
+  margin-top: 20px;
+  font-style: italic;
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* --- Nút Start & Countdown (Giữ nguyên) --- */
+#btn-start {
+  padding: 20px 50px;
+  font-size: 1.5rem;
+  background: linear-gradient(45deg, #ff004c, #ff9100);
+  border: none;
+  border-radius: 50px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 0 20px rgba(255, 69, 0, 0.5);
+  animation: pulse 2s infinite;
+}
+
+/* Style cho Ngựa và Chữ */
+.glow-text {
+  font-family: "Dancing Script", cursive;
+  font-size: 6rem;
+  margin: 0;
+  line-height: 1.2;
+}
+.neon-pink {
+  color: #ff0055;
+  text-shadow: 0 0 10px #ff0055, 0 0 20px #ff0055;
+}
+.year {
+  font-size: 5rem;
+  margin: 0;
+  color: #ffcc00;
+  font-weight: 800;
+  text-shadow: 0 0 20px #fc0;
+}
+.zodiac-emblem img {
+  filter: drop-shadow(0 0 10px #ffcc00);
+  display: block;
+  margin: 0 auto;
+  height: 250px;
+  width: auto;
+}
+.zodiac-text {
+  font-family: "Dancing Script", cursive;
+  color: #ffcc00;
+  font-size: 4rem;
+  margin: 10px 0 0 0;
+  text-shadow: 0 0 10px #ffcc00;
+}
+.wishes {
+  font-size: 1.5rem;
+  margin-top: 20px;
+  color: #fff;
+}
+.hint {
+  font-size: 1rem;
+  color: #aaa;
+  margin-top: 20px;
+  font-style: italic;
+  animation: blink 2s infinite;
+}
+
+/* Popup Styles */
+#wishes-popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+}
+.popup-content {
+  background: linear-gradient(to bottom, #fff, #ffecec);
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 400px;
+  border: 4px solid #d60000;
+  box-shadow: 0 0 30px #d60000;
+  animation: popIn 0.3s;
+}
+.popup-content h2 {
+  color: #d60000;
+  margin-top: 0;
+  font-family: "Dancing Script";
+  font-size: 2.5rem;
+}
+.popup-content p {
+  color: #333;
+  font-size: 1.3rem;
+  margin: 20px 0;
+}
+.popup-content button {
+  background: #d60000;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 69, 0, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 20px rgba(255, 69, 0, 0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0.5;
+  }
+}
+@keyframes popIn {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .timer {
+    gap: 10px;
+  }
+  .time-box {
+    min-width: 70px;
+    padding: 10px;
+  }
+  .time-box span:first-child {
+    font-size: 2rem;
+  }
+  .unit {
+    font-size: 0.8rem;
+  }
+  .glow-text {
+    font-size: 3.5rem;
+  }
+  .zodiac-emblem img {
+    height: 150px;
+  }
+  .zodiac-text {
+    font-size: 2.5rem;
+  }
+}

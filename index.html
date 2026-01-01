@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đếm Ngược Tết Bính Ngọ 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+
+    <canvas id="envelope-canvas"></canvas>
+
+    <div id="start-screen" class="screen active">
+      <button id="btn-start">Vào xem thời gian đến Tết</button>
+    </div>
+
+    <div id="countdown-screen" class="screen">
+      <h2 class="label">Sắp đến Tết Bính Ngọ 2026</h2>
+      <div class="timer">
+        <div class="time-box">
+          <span id="days">00</span>
+          <span class="unit">Ngày</span>
+        </div>
+        <div class="time-box">
+          <span id="hours">00</span>
+          <span class="unit">Giờ</span>
+        </div>
+        <div class="time-box">
+          <span id="minutes">00</span>
+          <span class="unit">Phút</span>
+        </div>
+        <div class="time-box">
+          <span id="seconds">00</span>
+          <span class="unit">Giây</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="greeting-screen" class="screen">
+      <h1 class="glow-text neon-pink">Happy New Year</h1>
+
+      <div class="zodiac-emblem">
+        <img
+          src="ngua1.svg"
+          alt="Ngựa 2026"
+          class="zodiac-icon"
+          onerror="this.style.display='none';"
+        />
+        <h3 class="zodiac-text">Xuân Bính Ngọ</h3>
+      </div>
+
+      <p class="wishes">
+        Chúc mừng năm mới!<br />
+        An Khang - Thịnh Vượng
+      </p>
+      <p class="hint">(Hãy bấm vào bao lì xì để nhận lời chúc!)</p>
+    </div>
+
+    <div id="wishes-popup">
+      <div class="popup-content">
+        <h2 id="popup-title">Lộc Đầu Xuân</h2>
+        <p id="wishes-text">...</p>
+        <button onclick="closePopup()">Cảm ơn</button>
+      </div>
+    </div>
+
+    <audio id="bgMusic" src="TetDongDay.mp3" loop></audio>
+
+    <script src="script.js"></script>
+  </body>
+</html>
